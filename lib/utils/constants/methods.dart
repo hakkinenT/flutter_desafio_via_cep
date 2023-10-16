@@ -11,3 +11,28 @@ Map<String, dynamic> convertToMap(dynamic data) {
     'updatedAt': data['updatedAt'].toString()
   };
 }
+
+Map<String, dynamic> convertToMap2(dynamic data) {
+  return {
+    'cep': data['cep'] as String,
+    'logradouro': data['logradouro'] as String?,
+    'complemento': data['complemento'] as String?,
+    'bairro': data['bairro'] as String?,
+    'localidade': data['localidade'] as String,
+    'uf': data['uf'] as String
+  };
+}
+
+Map<String, dynamic> hasErrorAsMap() {
+  return {'error': true};
+}
+
+bool cepExists(Map<String, dynamic> json) {
+  final hasError = json['error'];
+
+  if (hasError == true) {
+    return false;
+  }
+
+  return true;
+}

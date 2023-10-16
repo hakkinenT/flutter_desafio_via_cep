@@ -1,33 +1,31 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'cep_model.g.dart';
-
-@JsonSerializable()
 class CepModel {
   final String? objectId;
   final String cep;
-  final String logradouro;
+  final String? logradouro;
   final String? complemento;
-  final String bairro;
+  final String? bairro;
   final String localidade;
   final String uf;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
 
   const CepModel({
     required this.cep,
-    required this.logradouro,
-    required this.bairro,
-    required this.localidade,
     required this.uf,
+    required this.localidade,
     this.objectId,
     this.complemento,
-    this.createdAt,
-    this.updatedAt,
+    this.logradouro,
+    this.bairro,
   });
 
-  factory CepModel.fromJson(Map<String, dynamic> json) =>
-      _$CepModelFromJson(json);
+  factory CepModel.fromJson(Map<String, dynamic> json) => CepModel(
+        cep: json['cep'] as String,
+        logradouro: json['logradouro'] as String?,
+        bairro: json['bairro'] as String?,
+        localidade: json['localidade'] as String,
+        uf: json['uf'] as String,
+        objectId: json['objectId'] as String?,
+        complemento: json['complemento'] as String?,
+      );
 
   Map<String, dynamic> toJson() => {
         'objectId': objectId,
@@ -47,8 +45,6 @@ class CepModel {
     String? uf,
     String? objectId,
     String? complemento,
-    DateTime? createdAt,
-    DateTime? updatedAt,
   }) {
     return CepModel(
       objectId: objectId ?? this.objectId,
@@ -58,8 +54,6 @@ class CepModel {
       complemento: complemento ?? this.complemento,
       localidade: localidade ?? this.localidade,
       uf: uf ?? this.uf,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 }

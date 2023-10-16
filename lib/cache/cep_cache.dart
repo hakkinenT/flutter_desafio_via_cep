@@ -1,15 +1,14 @@
-import 'package:flutter_desafio_via_cep/cache/exceptions/cache_exception.dart';
-import 'package:flutter_desafio_via_cep/utils/network/custom_dio/cep_cache_custom_dio.dart';
-
 import '../utils/constants/api.dart';
 import '../utils/constants/methods.dart';
+import '../utils/network/custom_dio/cep_cache_custom_dio.dart';
+import 'exceptions/cache_exception.dart';
 
 class CepCache {
   final custom = CepCacheCustomDio();
 
-  Future<void> save(Map<String, dynamic> json) async {
+  Future<void> save(Map<String, dynamic> data) async {
     try {
-      await custom.dio.post(url, data: json);
+      await custom.dio.post(url, data: data);
     } catch (e) {
       throw CacheException(message: e.toString());
     }
@@ -29,8 +28,12 @@ class CepCache {
     try {
       final filter = '$url?where={"cep":"$cep"}';
       final result = await custom.dio.get(filter);
-      final data = result.data['results'][0];
-      return convertToMap(data);
+
+      final data = result.data['results'] as List;
+
+      if (data.isEmpty) return hasErrorAsMap();
+
+      return convertToMap(data[0]);
     } catch (e) {
       throw CacheException(message: e.toString());
     }

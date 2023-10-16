@@ -19,9 +19,9 @@ class CepCacheDioInterceptor extends Interceptor {
   }
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) {
+  void onError(DioException err, ErrorInterceptorHandler handler) {
     print(
-        'ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.path}');
+        'ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.path} ${err.response?.data}');
     super.onError(err, handler);
   }
 }
