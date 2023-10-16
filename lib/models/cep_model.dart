@@ -29,7 +29,15 @@ class CepModel {
   factory CepModel.fromJson(Map<String, dynamic> json) =>
       _$CepModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CepModelToJson(this);
+  Map<String, dynamic> toJson() => {
+        'objectId': objectId,
+        'cep': cep,
+        'logradouro': logradouro,
+        'complemento': complemento,
+        'bairro': bairro,
+        'localidade': localidade,
+        'uf': uf,
+      };
 
   CepModel copyWith({
     String? cep,

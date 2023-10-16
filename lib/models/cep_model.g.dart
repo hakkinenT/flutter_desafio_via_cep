@@ -21,15 +21,3 @@ CepModel _$CepModelFromJson(Map<String, dynamic> json) => CepModel(
           ? null
           : DateTime.parse(json['updatedAt'] as String),
     );
-
-Map<String, dynamic> _$CepModelToJson(CepModel instance) => <String, dynamic>{
-      'objectId': instance.objectId,
-      'cep': instance.cep,
-      'logradouro': instance.logradouro,
-      'complemento': instance.complemento,
-      'bairro': instance.bairro,
-      'localidade': instance.localidade,
-      'uf': instance.uf,
-      'createdAt': instance.createdAt?.toIso8601String(),
-      'updatedAt': instance.updatedAt?.toIso8601String(),
-    };
