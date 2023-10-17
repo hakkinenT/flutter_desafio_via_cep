@@ -17,6 +17,8 @@ class CepModel {
     this.bairro,
   });
 
+  factory CepModel.empty() => const CepModel(cep: '', uf: '', localidade: '');
+
   factory CepModel.fromJson(Map<String, dynamic> json) => CepModel(
         cep: json['cep'] as String,
         logradouro: json['logradouro'] as String?,

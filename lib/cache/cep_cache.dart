@@ -26,7 +26,8 @@ class CepCache {
 
   Future<Map<String, dynamic>> get(String cep) async {
     try {
-      final filter = '$url?where={"cep":"$cep"}';
+      final formattedCep = formatCep(cep);
+      final filter = '$url?where={"cep":"$formattedCep"}';
       final result = await custom.dio.get(filter);
 
       final data = result.data['results'] as List;

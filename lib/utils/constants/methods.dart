@@ -36,3 +36,11 @@ bool cepExists(Map<String, dynamic> json) {
 
   return true;
 }
+
+String formatCep(String cep) {
+  var firstFiveNumber = cep.substring(0, 5);
+  var lastThreeNumber = cep.substring(5);
+  var formattedCep = '$firstFiveNumber-$lastThreeNumber';
+
+  return formattedCep;
+}
