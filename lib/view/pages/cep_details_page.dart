@@ -133,11 +133,31 @@ class _CepDetailsPageState extends State<CepDetailsPage> {
 
     if (widget.cepController.error) {
       await _showMessageError(widget.cepController.errorMessage!);
+    } else {
+      await _showDeleteSuccessMessage();
     }
 
     if (mounted) {
       Navigator.pop(context);
     }
+  }
+
+  Future<void> _showDeleteSuccessMessage() async {
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) {
+        return successAlert(
+          title: 'Localização Excluída!',
+          message: 'CEP excluído com sucesso!',
+          onCloseButtonPressed: () async {
+            if (mounted) {
+              Navigator.pop(context);
+            }
+          },
+        );
+      },
+    );
   }
 
   Future<void> _onEditPressed() async {
@@ -169,10 +189,9 @@ class _CepDetailsPageState extends State<CepDetailsPage> {
       barrierDismissible: false,
       builder: (ctx) {
         return successAlert(
+          title: 'Localização Atualizada!',
           cep: cep,
           onCloseButtonPressed: () async {
-            await widget.cepController.getAll();
-
             if (mounted) {
               Navigator.pop(context);
             }

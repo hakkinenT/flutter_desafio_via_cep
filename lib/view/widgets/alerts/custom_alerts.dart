@@ -7,15 +7,20 @@ import 'package:flutter_desafio_via_cep/view/widgets/alerts/content_message.dart
 import 'close_button.dart';
 
 AlertDialog successAlert(
-    {required CepModel cep, required VoidCallback onCloseButtonPressed}) {
+    {String title = 'Localização Encontrada!',
+    CepModel? cep,
+    String message = 'Operação realizada com sucesso',
+    required VoidCallback onCloseButtonPressed}) {
   return _customAlert(
     title: AlertTitle(
         prefixIcon: Icon(
           Icons.location_on,
           color: Colors.red[400],
         ),
-        title: 'Localização Encontrada!'),
-    content: CepInformationContent(cep: cep),
+        title: title),
+    content: cep != null
+        ? CepInformationContent(cep: cep)
+        : ContentMessage(message: message),
     actions: [
       CustomCloseButton(
         onPressed: onCloseButtonPressed,
