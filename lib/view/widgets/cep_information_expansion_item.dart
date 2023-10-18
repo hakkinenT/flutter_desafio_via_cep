@@ -10,20 +10,26 @@ class CepInformationExpansionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Text(
           label,
           style: style,
         ),
         const Spacer(),
-        Text(_getCep()),
+        Expanded(
+          child: Text(
+            _getContent(),
+            textAlign: TextAlign.right,
+          ),
+        ),
       ],
     );
   }
 
   final TextStyle style = const TextStyle(fontWeight: FontWeight.bold);
 
-  String _getCep() {
+  String _getContent() {
     if (content == null || content!.isEmpty) {
       return 'N/A';
     }

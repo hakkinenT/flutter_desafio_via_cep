@@ -38,9 +38,13 @@ bool cepExists(Map<String, dynamic> json) {
 }
 
 String formatCep(String cep) {
-  var firstFiveNumber = cep.substring(0, 5);
-  var lastThreeNumber = cep.substring(5);
-  var formattedCep = '$firstFiveNumber-$lastThreeNumber';
+  try {
+    var firstFiveNumber = cep.substring(0, 5);
+    var lastThreeNumber = cep.substring(5);
+    var formattedCep = '$firstFiveNumber-$lastThreeNumber';
 
-  return formattedCep;
+    return formattedCep;
+  } on RangeError {
+    throw const FormatException('O CEP deve ter 8 caracteres!');
+  }
 }

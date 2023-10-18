@@ -5,13 +5,15 @@ import 'custom_text_form_field.dart';
 class SearchCepBar extends StatelessWidget {
   const SearchCepBar(
       {super.key,
-      required this.onChanged,
+      this.onChanged,
       required this.onSearchButtonPressed,
-      this.initialValue});
+      this.initialValue,
+      required this.controller});
 
-  final ValueChanged<String> onChanged;
+  final ValueChanged<String>? onChanged;
   final VoidCallback onSearchButtonPressed;
   final String? initialValue;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +23,8 @@ class SearchCepBar extends StatelessWidget {
           initialValue: initialValue,
           hintText: 'Pesquisar CEP...',
           onChanged: onChanged,
+          keyboardType: TextInputType.number,
+          controller: controller,
         ),
       ),
       _SearchButton(onSearchButtonPressed: onSearchButtonPressed),

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../controllers/cep_controller.dart';
 import '../../models/cep_model.dart';
+import '../widgets/alerts/custom_alerts.dart';
 import '../widgets/cep_empty_list.dart';
 import '../widgets/cep_information_expansion_tile.dart';
 import '../widgets/cep_loading_indicator.dart';
-import '../widgets/cep_not_found.dart';
 import '../widgets/search_cep_bar.dart';
-import 'cep_information_container.dart';
+import 'cep_details_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,6 +18,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final controller = CepController();
+  TextEditingController cepFieldController = TextEditingController();
 
   @override
   void initState() {
@@ -34,106 +35,113 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: _HomePageBody(
         slivers: [
-          SliverToBoxAdapter(
-            child: ListenableBuilder(
-              listenable: controller,
-              builder: (context, child) {
-                return SearchCepBar(
-                  initialValue: controller.cep,
-                  onChanged: (value) {
-                    controller.setCep(value);
-                  },
-                  onSearchButtonPressed: () async {
-                    await controller.searchCep();
-                    final cep = controller.cepModel;
-
-                    if (mounted) {
-                      if (controller.error) {
-                        await showDialog(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (ctx) {
-                              return AlertDialog(
-                                content: CepNotFound(
-                                    message: controller.errorMessage!),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      controller.clearErrorFields();
-                                      controller.clearCep();
-
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text('Fechar'),
-                                  ),
-                                ],
-                              );
-                            });
-                      } else {
-                        _showCepInformations(cep);
-                      }
-                    }
-                  },
-                );
-              },
-            ),
+          ListenableBuilder(
+            listenable: controller,
+            builder: (context, child) {
+              return SliverToBoxAdapter(
+                child: SearchCepBar(
+                  controller: cepFieldController,
+                  onSearchButtonPressed: _onSearchButtonPressed,
+                ),
+              );
+            },
           ),
           const SliverToBoxAdapter(
             child: _HeightSpacer(),
           ),
           ListenableBuilder(
             listenable: controller,
-            builder: (context, child) {
-              final ceps = controller.ceps;
-
-              if (controller.loading) {
-                return const SliverToBoxAdapter(
-                  child: CepLoadingIndicator(),
-                );
-              } else if (controller.ceps.isEmpty) {
-                return const SliverToBoxAdapter(
-                  child: CepEmptyList(),
-                );
-              } else {
-                return SliverList.builder(
-                  itemCount: ceps.length,
-                  itemBuilder: (context, index) {
-                    final cep = ceps[index];
-                    return CepInformationExpansionTile(
-                      cep: cep,
-                      onTap: () {},
-                    );
-                  },
-                );
-              }
-            },
+            builder: cepInformationBuilder,
           ),
         ],
       ),
     );
   }
 
+  Widget cepInformationBuilder(context, child) {
+    final ceps = controller.ceps;
+
+    if (controller.loading) {
+      return const SliverToBoxAdapter(
+        child: CepLoadingIndicator(),
+      );
+    } else if (controller.ceps.isEmpty) {
+      return const SliverToBoxAdapter(
+        child: CepEmptyList(),
+      );
+    } else {
+      return SliverList.builder(
+        itemCount: ceps.length,
+        itemBuilder: (context, index) {
+          final cep = ceps[index];
+          return CepInformationExpansionTile(
+            cep: cep,
+            onPressed: () async => _goToDetailsPage(cep),
+          );
+        },
+      );
+    }
+  }
+
+  Future<void> _goToDetailsPage(CepModel cep) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => CepDetailsPage(
+          cep: cep,
+          cepController: controller,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _onSearchButtonPressed() async {
+    await controller.searchCep(cepFieldController.text);
+    final cep = controller.cepModel;
+
+    cepFieldController.clear();
+    if (mounted) {
+      if (controller.error) {
+        await _showNotFoundError(controller.errorMessage!);
+      } else {
+        await _showCepInformations(cep);
+      }
+    }
+  }
+
   Future<void> _showCepInformations(CepModel cep) async {
     await showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (ctx) {
-          return AlertDialog(
-            content: CepInformationContainer(cep: cep),
-            actions: [
-              TextButton(
-                onPressed: () async {
-                  await controller.getAll();
-                  controller.clearCep();
-                  if (mounted) {
-                    Navigator.pop(context);
-                  }
-                },
-                child: const Text('Fechar'),
-              ),
-            ],
-          );
-        });
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) {
+        return successAlert(
+          cep: cep,
+          onCloseButtonPressed: () async {
+            await controller.getAll();
+
+            if (mounted) {
+              Navigator.pop(context);
+            }
+          },
+        );
+      },
+    );
+  }
+
+  Future<void> _showNotFoundError(String message) async {
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) {
+        return cepNotFoundAlert(
+            message: message,
+            onCloseButtonPressed: () {
+              controller.clearErrorFields();
+
+              Navigator.pop(context);
+            });
+      },
+    );
   }
 }
 

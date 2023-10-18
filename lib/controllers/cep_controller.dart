@@ -12,21 +12,11 @@ class CepController extends ChangeNotifier {
   String? errorMessage;
   List<CepModel> ceps = [];
   CepModel cepModel = CepModel.empty();
-  String? cep;
+
   CepRepository repository =
       CepRepository(cache: CepCache(), service: CepService());
 
-  void setCep(String cep) {
-    this.cep = cep;
-    notifyListeners();
-  }
-
-  void clearCep() {
-    cep = null;
-    notifyListeners();
-  }
-
-  Future<void> searchCep() async {
+  Future<void> searchCep(String cep) async {
     if (error) {
       error = false;
       errorMessage = null;
@@ -34,7 +24,7 @@ class CepController extends ChangeNotifier {
     }
     try {
       loading = true;
-      cepModel = await repository.searchCep(cep!);
+      cepModel = await repository.searchCep(cep);
       loading = false;
     } on ResourceNotFoundException catch (e) {
       loading = false;
@@ -44,6 +34,10 @@ class CepController extends ChangeNotifier {
       loading = false;
       error = true;
       errorMessage = e.message;
+    } on FormatException catch (e) {
+      loading = false;
+      error = true;
+      errorMessage = e.message.toString().substring(16);
     }
 
     notifyListeners();
