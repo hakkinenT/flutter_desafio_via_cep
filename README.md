@@ -13,15 +13,31 @@ A aplicação permite que o usuário pesquise informaçãoes sobre um determinad
 
 ## Screenshots
 <p float="left">
-    <img src="https://via.placeholder.com/270x480?text=App+Screenshot+Here" alt="screencap 1" width="270" height="480"/>
-    <img src="https://via.placeholder.com/270x480?text=App+Screenshot+Here" alt="screencap 2" width="270" height="480"/>
+    <img src="https://github.com/hakkinenT/assets/blob/master/flutter-projects/flutter-desafio-via-cep/screen1.png" width="270" height="480"/>
+    <img src="https://github.com/hakkinenT/assets/blob/master/flutter-projects/flutter-desafio-via-cep/screen2.png" width="270" height="480"/>
+</p>
+<p float="left">
+    <img src="https://github.com/hakkinenT/assets/blob/master/flutter-projects/flutter-desafio-via-cep/screen3.png" width="270" height="480"/>
+    <img src="https://github.com/hakkinenT/assets/blob/master/flutter-projects/flutter-desafio-via-cep/screen5.png" width="270" height="480"/>
+</p>
+<p float="left">
+    <img src="https://github.com/hakkinenT/assets/blob/master/flutter-projects/flutter-desafio-via-cep/screen6.png" width="270" height="480"/>
+    <img src="https://github.com/hakkinenT/assets/blob/master/flutter-projects/flutter-desafio-via-cep/screen7.png" width="270" height="480"/>
 </p>
 
 ## Demonstração
 
 <p float="left">
-    <img src="https://49.media.tumblr.com/af1c15da12dded7ecd2f1f2ed7950b67/tumblr_nx9cbuEyvx1qz8q0ho1_400.gif" alt="screencap 1" width="270" height="480"/>
-    <img src="https://49.media.tumblr.com/af1c15da12dded7ecd2f1f2ed7950b67/tumblr_nx9cbuEyvx1qz8q0ho1_400.gif" alt="screencap 2" width="270" height="480"/>
+    <img src="https://github.com/hakkinenT/assets/blob/master/flutter-projects/flutter-desafio-via-cep/video1.gif" width="270" height="480"/>
+    <img src="https://github.com/hakkinenT/assets/blob/master/flutter-projects/flutter-desafio-via-cep/video2.gif" width="270" height="480"/>
+</p>
+<p float="left">
+    <img src="https://github.com/hakkinenT/assets/blob/master/flutter-projects/flutter-desafio-via-cep/video3.gif" width="270" height="480"/>
+    <img src="https://github.com/hakkinenT/assets/blob/master/flutter-projects/flutter-desafio-via-cep/video4.gif" width="270" height="480"/>
+</p>
+<p float="left">
+    <img src="https://github.com/hakkinenT/assets/blob/master/flutter-projects/flutter-desafio-via-cep/video5.gif" width="270" height="480"/>
+    
 </p>
 
 
